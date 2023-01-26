@@ -1,8 +1,9 @@
 use std::fs;
 
 pub fn part_one() {
-    let file = fs::read_to_string("../resources/q1");
+    let file = fs::read_to_string("resources/q1");
     let result = file.map(|contents| chunk_sum(&contents).max());
+
     match result {
         Err(err) => println!("{:?}", err),
         Ok(None) => println!("Empty file"),
@@ -11,7 +12,7 @@ pub fn part_one() {
 }
 
 pub fn part_two() {
-    let file = fs::read_to_string("../resources/q1");
+    let file = fs::read_to_string("resources/q1");
     let result = file
         .map(|contents| chunk_sum(&contents).collect::<Vec<u32>>())
         .map(|mut vec| {
