@@ -3,6 +3,7 @@ use std::env;
 
 mod q1;
 mod q2;
+mod q3;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -26,6 +27,12 @@ fn main() {
             q2::part_one();
             println!("=== Part 2 ===");
             q2::part_two()
+        }
+        "q3" => {
+            println!("=== Part 1 ===");
+            q3::part_one();
+            println!("=== Part 2 ===");
+            q3::part_two()
         }
         _ => {
             println!("Invalid question number. There are {} questions", qs.len());
