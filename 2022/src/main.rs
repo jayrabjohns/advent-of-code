@@ -4,6 +4,7 @@ use std::env;
 mod q1;
 mod q2;
 mod q3;
+mod q4;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -13,7 +14,7 @@ fn main() {
     }
 
     let question = args[1].as_str();
-    let qs = ["q1", "q2"].map(|s| String::from(s));
+    let qs = ["q1", "q2", "q3", "q4"].map(String::from);
 
     match question {
         "q1" => {
@@ -33,6 +34,12 @@ fn main() {
             q3::part_one();
             println!("=== Part 2 ===");
             q3::part_two()
+        }
+        "q4" => {
+            println!("=== Part 1 ===");
+            q4::part_one();
+            println!("=== Part 2 ===");
+            q4::part_two()
         }
         _ => {
             println!("Invalid question number. There are {} questions", qs.len());
