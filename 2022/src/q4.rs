@@ -7,6 +7,22 @@ struct Range {
 }
 
 pub fn part_one() {
+    q4(&|l: Range, r: Range| {
+        let l_contains_r = l.lower_bound <= r.lower_bound && l.upper_bound >= r.upper_bound;
+        let r_contains_l = l.lower_bound >= r.lower_bound && l.upper_bound <= r.upper_bound;
+        l_contains_r || r_contains_l
+    })
+}
+
+pub fn part_two() {
+    q4(&|l: Range, r: Range| {
+        let l_left_of_r = l.upper_bound < r.lower_bound;
+        let l_right_of_r = l.lower_bound > r.upper_bound;
+        !(l_left_of_r || l_right_of_r)
+    })
+}
+
+fn q4(filter_pred: &dyn Fn(Range, Range) -> bool) {
     let file = fs::File::open("resources/q4").map(BufReader::new);
     let result = file.map(|reader| {
         reader
@@ -27,9 +43,7 @@ pub fn part_one() {
                     upper_bound: r_range.next().unwrap().parse().unwrap(),
                 };
 
-                let l_contains_r = l.lower_bound <= r.lower_bound && l.upper_bound >= r.upper_bound;
-                let r_contains_l = l.lower_bound >= r.lower_bound && l.upper_bound <= r.upper_bound;
-                l_contains_r || r_contains_l
+                filter_pred(l, r)
             })
             .collect::<Vec<_>>()
             .len()
@@ -37,8 +51,6 @@ pub fn part_one() {
 
     match result {
         Err(err) => panic!("{err}"),
-        Ok(len) => println!("Number of containing pairs: {len}"),
+        Ok(len) => println!("Number of pairs: {len}"),
     }
 }
-
-pub fn part_two() {}
