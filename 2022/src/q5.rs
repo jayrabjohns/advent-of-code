@@ -1,10 +1,34 @@
-use regex::{Captures, Regex};
+use regex::Regex;
 use std::fs;
 
 type CrateStack = Vec<char>;
 type Move = [usize; 3];
 
 pub fn part_one() {
+    q5(
+        &|move_count: usize, start: usize, finish: usize, stacks: &mut Vec<CrateStack>| {
+            for _ in 0..move_count {
+                let elem = stacks[start].pop().expect("Empty Stack");
+                // println!("Moving {elem} from stack {} to {}", start + 1, finish + 1);
+                stacks[finish].push(elem);
+            }
+        },
+    )
+}
+
+pub fn part_two() {
+    q5(
+        &|move_count: usize, start: usize, finish: usize, stacks: &mut Vec<CrateStack>| {
+            let len = stacks[start].len();
+            let elems = &mut stacks[start]
+                .drain((len - move_count)..)
+                .collect::<Vec<_>>();
+            stacks[finish].append(elems);
+        },
+    )
+}
+
+fn q5(move_fn: &dyn Fn(usize, usize, usize, &mut Vec<CrateStack>) -> ()) {
     let file_contents = fs::read_to_string("resources/q5").unwrap();
     let (starting_state, moves) = file_contents.split_once("\n\n").unwrap();
     let mut stacks: Vec<CrateStack> = parse_start_state(starting_state);
@@ -15,11 +39,7 @@ pub fn part_one() {
         let start = m[1] - 1;
         let finish = m[2] - 1;
 
-        for _ in 0..move_count {
-            let elem = stacks[start].pop().expect("Empty Stack");
-            // println!("Moving {elem} from stack {} to {}", start + 1, finish + 1);
-            stacks[finish].push(elem);
-        }
+        move_fn(move_count, start, finish, &mut stacks);
     }
 
     let mut result = String::new();
@@ -30,8 +50,6 @@ pub fn part_one() {
 
     println!("Result: {result}");
 }
-
-pub fn part_two() {}
 
 fn parse_start_state(start_state: &str) -> Vec<CrateStack> {
     let mut lines = start_state.lines().map(|line| line.chars()).rev();
@@ -46,7 +64,7 @@ fn parse_start_state(start_state: &str) -> Vec<CrateStack> {
     let lines = lines.map(|x| x.collect::<Vec<_>>());
     let mut stacks: Vec<CrateStack> = vec![vec![]; num_stacks as usize];
     for line in lines {
-        println!("-> `{}`", line.iter().collect::<String>());
+        //println!("-> `{}`", line.iter().collect::<String>());
         for (i, char) in line.iter().skip(1).step_by(2).enumerate() {
             if !char.is_whitespace() {
                 stacks[i / 2].push(*char);
