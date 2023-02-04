@@ -6,6 +6,7 @@ mod q2;
 mod q3;
 mod q4;
 mod q5;
+mod q6;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -15,7 +16,7 @@ fn main() {
     }
 
     let question = args[1].as_str();
-    let qs = ["q1", "q2", "q3", "q4", "q5"];
+    let qs = ["q1", "q2", "q3", "q4", "q5", "q6"];
 
     match question {
         "q1" => {
@@ -47,6 +48,12 @@ fn main() {
             q5::part_one();
             println!("=== Part 2 ===");
             q5::part_two()
+        }
+        "q6" => {
+            println!("=== Part 1 ===");
+            q6::part_one();
+            println!("=== Part 2 ===");
+            q6::part_two()
         }
         _ => {
             println!("Invalid question number. There are {} questions", qs.len());
