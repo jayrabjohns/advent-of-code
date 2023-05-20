@@ -3,8 +3,6 @@ use std::{
     io::{self, BufRead, BufReader},
 };
 
-use substring::Substring;
-
 use super::Question;
 
 pub struct Q3;
@@ -67,8 +65,8 @@ fn find_common_char<'a>(chunk: impl Iterator<Item = &'a String>) -> Option<Vec<c
 
 fn calc_score_p1(line: String) -> u32 {
     let mid_point = line.len() / 2;
-    let left: &str = line.substring(0, mid_point);
-    let right: &str = line.substring(mid_point, line.len());
+    let left = &line[0..mid_point];
+    let right = &line[mid_point..];
     let left_set: HashSet<char> = left.chars().collect();
     return right
         .chars()
@@ -90,7 +88,7 @@ fn get_priority(char: char) -> Option<u32> {
         (char as u32) - ('a' as u32)
     } + 1;
 
-    //println!("Priority for {char} = {priority}");
+    // println!("Priority for {char} = {priority}");
 
     return Some(priority);
 }
