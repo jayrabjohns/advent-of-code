@@ -1,12 +1,8 @@
+mod questions;
+
+use questions::{Question, Q1, Q2, Q3, Q4, Q5, Q6};
 use regex::Regex;
 use std::env;
-
-mod q1;
-mod q2;
-mod q3;
-mod q4;
-mod q5;
-mod q6;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -15,51 +11,27 @@ fn main() {
         return;
     }
 
-    let question = args[1].as_str();
-    let qs = ["q1", "q2", "q3", "q4", "q5", "q6"];
-
-    match question {
-        "q1" => {
-            println!("=== Part 1 ===");
-            q1::part_one();
-            println!("=== Part 2 ===");
-            q1::part_two()
-        }
-        "q2" => {
-            println!("=== Part 1 ===");
-            q2::part_one();
-            println!("=== Part 2 ===");
-            q2::part_two()
-        }
-        "q3" => {
-            println!("=== Part 1 ===");
-            q3::part_one();
-            println!("=== Part 2 ===");
-            q3::part_two()
-        }
-        "q4" => {
-            println!("=== Part 1 ===");
-            q4::part_one();
-            println!("=== Part 2 ===");
-            q4::part_two()
-        }
-        "q5" => {
-            println!("=== Part 1 ===");
-            q5::part_one();
-            println!("=== Part 2 ===");
-            q5::part_two()
-        }
-        "q6" => {
-            println!("=== Part 1 ===");
-            q6::part_one();
-            println!("=== Part 2 ===");
-            q6::part_two()
-        }
-        _ => {
-            println!("Invalid question number. There are {} questions", qs.len());
-            return;
-        }
-    }
+    let input = args[1].as_str();
+    let questions: Vec<(&str, Box<dyn Question>)> = vec![
+        ("q1", Box::new(Q1)),
+        ("q2", Box::new(Q2)),
+        ("q3", Box::new(Q3)),
+        ("q4", Box::new(Q4)),
+        ("q5", Box::new(Q5)),
+        ("q6", Box::new(Q6)),
+    ];
+    questions
+        .iter()
+        .find(|(q_str, _)| q_str == &input)
+        .map_or_else(
+            || {
+                println!(
+                    "Invalid question number. There are {} questions",
+                    questions.len()
+                );
+            },
+            |(_, question)| question.run_all(),
+        );
 }
 
 fn validate_args(args: &Vec<String>) -> bool {

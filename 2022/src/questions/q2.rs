@@ -1,11 +1,16 @@
 use std::fs;
 
-pub fn part_one() {
-    q2(&calc_score_p1);
-}
+use super::Question;
 
-pub fn part_two() {
-    q2(&calc_score_p2);
+pub struct Q2;
+impl Question for Q2 {
+    fn part_one(&self) {
+        q2(&calc_score_p1);
+    }
+
+    fn part_two(&self) {
+        q2(&calc_score_p2);
+    }
 }
 
 fn q2(calc_score: &dyn Fn(&str) -> u32) {

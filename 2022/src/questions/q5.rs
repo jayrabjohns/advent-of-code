@@ -1,31 +1,36 @@
 use regex::Regex;
 use std::fs;
 
+use super::Question;
+
 type CrateStack = Vec<char>;
 type Move = [usize; 3];
 
-pub fn part_one() {
-    q5(
-        &|move_count: usize, start: usize, finish: usize, stacks: &mut Vec<CrateStack>| {
-            for _ in 0..move_count {
-                let elem = stacks[start].pop().expect("Empty Stack");
-                // println!("Moving {elem} from stack {} to {}", start + 1, finish + 1);
-                stacks[finish].push(elem);
-            }
-        },
-    )
-}
+pub struct Q5;
+impl Question for Q5 {
+    fn part_one(&self) {
+        q5(
+            &|move_count: usize, start: usize, finish: usize, stacks: &mut Vec<CrateStack>| {
+                for _ in 0..move_count {
+                    let elem = stacks[start].pop().expect("Empty Stack");
+                    // println!("Moving {elem} from stack {} to {}", start + 1, finish + 1);
+                    stacks[finish].push(elem);
+                }
+            },
+        )
+    }
 
-pub fn part_two() {
-    q5(
-        &|move_count: usize, start: usize, finish: usize, stacks: &mut Vec<CrateStack>| {
-            let len = stacks[start].len();
-            let elems = &mut stacks[start]
-                .drain((len - move_count)..)
-                .collect::<Vec<_>>();
-            stacks[finish].append(elems);
-        },
-    )
+    fn part_two(&self) {
+        q5(
+            &|move_count: usize, start: usize, finish: usize, stacks: &mut Vec<CrateStack>| {
+                let len = stacks[start].len();
+                let elems = &mut stacks[start]
+                    .drain((len - move_count)..)
+                    .collect::<Vec<_>>();
+                stacks[finish].append(elems);
+            },
+        )
+    }
 }
 
 fn q5(move_fn: &dyn Fn(usize, usize, usize, &mut Vec<CrateStack>) -> ()) {

@@ -1,11 +1,16 @@
 use std::{collections::HashSet, fs};
 
-pub fn part_one() {
-    q6(4);
-}
+use super::Question;
 
-pub fn part_two() {
-    q6(14);
+pub struct Q6;
+impl Question for Q6 {
+    fn part_one(&self) {
+        q6(4);
+    }
+
+    fn part_two(&self) {
+        q6(14);
+    }
 }
 
 fn q6(num_distinct_chars: usize) {
