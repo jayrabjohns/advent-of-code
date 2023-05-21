@@ -1,43 +1,40 @@
-use std::fs;
+use std::{error::Error, fs, io};
 
 use super::Question;
 
 pub struct Q1;
 impl Question for Q1 {
-    fn part_one(&self) {
-        let file = fs::read_to_string("resources/q1");
-        let result = file.map(|contents| chunk_sum(&contents).max());
+    fn part_one(&self) -> Result<String, Box<dyn Error>> {
+        let contents = fs::read_to_string("resources/q1")?;
+        let max = chunk_sum(&contents).max().ok_or(Box::new(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "Empty file",
+        )))?;
 
-        match result {
-            Err(err) => println!("{:?}", err),
-            Ok(None) => println!("Empty file"),
-            Ok(Some(maximum)) => println!("Max calories: {}", maximum),
-        };
+        Ok(max.to_string())
     }
 
-    fn part_two(&self) {
-        let file = fs::read_to_string("resources/q1");
-        let result = file
-            .map(|contents| chunk_sum(&contents).collect::<Vec<u32>>())
-            .map(|mut vec| {
-                vec.sort();
-                return vec;
-            })
-            .map(|vec| vec.iter().rev().take(3).sum::<u32>());
+    fn part_two(&self) -> Result<String, Box<dyn Error>> {
+        let contents = fs::read_to_string("resources/q1")?;
+        let mut result: Vec<u32> = chunk_sum(&contents).collect();
+        result.sort_by(|a, b| b.cmp(a));
 
-        match result {
-            Err(err) => println!("{:?}", err),
-            Ok(max) => println!("Max calories: {}", max),
-        };
+        let sum: u32 = result.iter().take(3).sum();
+        Ok(sum.to_string())
     }
 }
 
 fn chunk_sum(contents: &String) -> impl Iterator<Item = u32> + '_ {
-    return contents.split("\n\n").map(|chunk| {
+    contents.split("\n\n").map(|chunk| {
         chunk
             .lines()
             .filter_map(|line| line.parse::<u32>().ok())
-            .sum::<u32>()
-    });
+            .sum()
+    })
 }
 
+// #[cfg(test)]
+// mod tests {
+//     #[test]
+//     fn part_one() {}
+// }

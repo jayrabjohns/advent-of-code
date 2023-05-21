@@ -1,31 +1,22 @@
-use std::fs;
+use std::{error::Error, fs};
 
 use super::Question;
 
 pub struct Q2;
 impl Question for Q2 {
-    fn part_one(&self) {
-        q2(&calc_score_p1);
+    fn part_one(&self) -> Result<String, Box<dyn Error>> {
+        q2(&calc_score_p1)
     }
 
-    fn part_two(&self) {
-        q2(&calc_score_p2);
+    fn part_two(&self) -> Result<String, Box<dyn Error>> {
+        q2(&calc_score_p2)
     }
 }
 
-fn q2(calc_score: &dyn Fn(&str) -> u32) {
-    let file = fs::read_to_string("resources/q2");
-    let result = file.map(|contents| {
-        contents
-            .split("\n")
-            .map(|round| calc_score(round))
-            .sum::<u32>()
-    });
-
-    match result {
-        Err(err) => panic!("{err}"),
-        Ok(score) => println!("Total score {score}"),
-    }
+fn q2(calc_score: &dyn Fn(&str) -> u32) -> Result<String, Box<dyn Error>> {
+    let contents = fs::read_to_string("resources/q2")?;
+    let score = contents.lines().map(|round| calc_score(round)).sum::<u32>();
+    Ok(score.to_string())
 }
 
 fn calc_score_p1(round: &str) -> u32 {
