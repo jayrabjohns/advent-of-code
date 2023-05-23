@@ -34,7 +34,7 @@ impl Question for Q3 {
         let sum_priorities: u32 = lines
             .chunks(3)
             .map(&find_common_char)
-            .map(|chars| chars.iter().map(&get_priority).sum::<u32>())
+            .flat_map(|chars| chars.get(0).map(&get_priority))
             .sum();
 
         Ok(sum_priorities.to_string())

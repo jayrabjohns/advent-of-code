@@ -15,7 +15,7 @@ impl Question for Q2 {
 
 fn q2(calc_score: &dyn Fn(&str) -> u32) -> Result<String, Box<dyn Error>> {
     let contents = fs::read_to_string("resources/q2")?;
-    let score = contents.lines().map(|round| calc_score(round)).sum::<u32>();
+    let score = contents.lines().map(calc_score).sum::<u32>();
     Ok(score.to_string())
 }
 
