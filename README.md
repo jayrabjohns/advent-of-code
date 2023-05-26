@@ -5,6 +5,7 @@
 Written in rust.
 
 ### Usage
+```shell
 Usage: advent-of-code-2022 <DAY>
 
 Arguments:
@@ -12,3 +13,4 @@ Arguments:
 
 Options:
   -h, --help  Print help
+  ```

@@ -1,7 +1,7 @@
 mod questions;
 
 use clap::Parser;
-use questions::{Question, Q1, Q2, Q3, Q4, Q5, Q6 /* , Q5, Q6*/};
+use questions::{Question, Q1, Q2, Q3, Q4, Q5, Q6};
 
 #[derive(Parser)]
 struct Args {
