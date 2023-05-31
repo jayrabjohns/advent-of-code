@@ -1,7 +1,7 @@
 mod questions;
 
 use clap::Parser;
-use questions::{Question, Q1, Q2, Q3, Q4, Q5, Q6};
+use questions::{Question, Q1, Q2, Q3, Q4, Q5, Q6, Q7};
 
 #[derive(Parser)]
 struct Args {
@@ -18,6 +18,7 @@ fn main() {
         Box::new(Q4),
         Box::new(Q5),
         Box::new(Q6),
+        Box::new(Q7),
     ];
 
     questions.get(args.day - 1).map_or_else(

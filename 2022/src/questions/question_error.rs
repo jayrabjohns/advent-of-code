@@ -3,8 +3,6 @@ use std::{
     fmt::{self, Display, Formatter},
 };
 
-use super::Question;
-
 #[derive(Debug)]
 pub struct QuestionError {
     pub message: String,
